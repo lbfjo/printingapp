@@ -1,89 +1,109 @@
 package com.example.printingapp;
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import com.example.printingapp.BaseSampleActivity;
 
-public class MainActivity extends AppCompatActivity {
-    EditText editTextFileName,editTextData;
-    Button saveButton,readButton;
-    String path = Environment.DIRECTORY_DOWNLOADS+"/teste";
+import es.voghdev.pdfviewpager.library.PDFViewPager;
+import es.voghdev.pdfviewpager.library.adapter.BasePDFPagerAdapter;
+import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
+
+public class MainActivity extends BaseSampleActivity {
+    PDFViewPager pdfViewPager;
+    BasePDFPagerAdapter adapter;
+
+    final int REQUEST_CODE = 1;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.std_example);
         setContentView(R.layout.activity_main);
 
-        editTextFileName=findViewById(R.id.editText1);
-        editTextData=findViewById(R.id.editText2);
-        saveButton=findViewById(R.id.button1);
-        readButton=findViewById(R.id.button2);
+        pdfViewPager = findViewById(R.id.pdfViewPager);
 
-        //Performing action on save button
-        saveButton.setOnClickListener(new View.OnClickListener(){
+        adapter = new PDFPagerAdapter(this, "sample.pdf");
+        pdfViewPager.setAdapter(adapter);
+    }
 
-            @Override
-            public void onClick(View arg0) {
-                String filename=editTextFileName.getText().toString();
-                String data=editTextData.getText().toString();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-                FileOutputStream fos;
-                try {
-                    File myFile = new File(path.concat(filename));
-                    if(myFile.isDirectory()) {
-                        FileOutputStream fOut = new FileOutputStream(myFile);
-                        OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-                        myOutWriter.append(data);
-                        myOutWriter.close();
-                        fOut.close();
-                    }else{
-                      myFile.mkdirs();
-                        FileOutputStream fOut = new FileOutputStream(myFile);
-                        OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-                        myOutWriter.append(data);
-                        myOutWriter.close();
-                        fOut.close();
-                    }
-                    Toast.makeText(getApplicationContext(), filename + "saved", Toast.LENGTH_LONG).show();
-                } catch (FileNotFoundException e) {e.printStackTrace();}
-                catch (IOException e) {e.printStackTrace();}
-            }
-        });
+        adapter.close();
+    }
 
-        //Performing action on Read Button
-        readButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0) {
-                String filename=editTextFileName.getText().toString();
-                StringBuffer stringBuffer = new StringBuffer();
-                String aDataRow = "";
-                String aBuffer = "";
-                try {
-                    File myFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+filename);
-                    FileInputStream fIn = new FileInputStream(myFile);
-                    BufferedReader myReader = new BufferedReader(
-                            new InputStreamReader(fIn));
-                    while ((aDataRow = myReader.readLine()) != null) {
-                        aBuffer += aDataRow + "\n";
-                    }
-                    myReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(getApplicationContext(),aBuffer,Toast.LENGTH_LONG).show();
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_sample2) {
+            launchActivity(RemotePDFActivity.class);
+            return false;
+        } else if (id == R.id.action_sample3) {
+            requestPermissionsThenOpen(AssetOnSDActivity.class);
+            return false;
+        } else if (id == R.id.action_sample4) {
+            Toast.makeText(this, R.string.dummy_msg, Toast.LENGTH_LONG).show();
+        } else if (id == R.id.action_sample5) {
+            requestPermissionsThenOpen(AssetOnXMLActivity.class);
+        } else if (id == R.id.action_sample8) {
+            requestPermissionsThenOpen(ZoomablePDFActivityPhotoView.class);
+        } else if (id == R.id.action_sample9) {
+            launchActivity(PDFWithScaleActivity.class);
+        } else if (id == R.id.action_sample10) {
+            launchActivity(InvalidPdfActivity.class);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected boolean hasExternalStoragePermissions() {
+        boolean hasReadPermission = ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        boolean hasWritePermission = ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        return hasReadPermission && hasWritePermission;
+    }
+
+    protected void requestPermissionsThenOpen(Class activityClass) {
+        if (hasExternalStoragePermissions()) {
+            launchActivity(activityClass);
+        } else {
+            requestExternalStoragePermissions();
+        }
+    }
+
+    protected void requestExternalStoragePermissions() {
+        String[] permissions = {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        };
+
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
+    }
+
+    protected void launchActivity(Class activityClass) {
+        Intent i = new Intent(this, activityClass);
+        startActivity(i);
     }
 }
