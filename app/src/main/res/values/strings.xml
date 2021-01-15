@@ -26,4 +26,6 @@
     <string name="page_was_clicked">Page was clicked</string>
     <string name="invalid_pdf_title">An invalid Pdf load has started</string>
     <string name="invalid_pdf_text">You should receive an exception in your PdfErrorHandler</string>
+    <string name="created_at">Created at</string>
+    <string name="file_name">File Name</string>
 </resources>

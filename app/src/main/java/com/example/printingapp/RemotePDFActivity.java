@@ -1,6 +1,5 @@
 package com.example.printingapp;
 
-import android.app.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
 import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
 import es.voghdev.pdfviewpager.library.remote.DownloadFile;

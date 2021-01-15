@@ -21,9 +21,9 @@
             android:text="@string/flaticon_attr"
             android:autoLink="web"/>
 
-        <es.voghdev.pdfviewpager.library.PDFViewPager
-            android:id="@+id/pdfViewPager"
+        <fragment android:name="com.example.printingapp.ItemFragment"
+            android:id="@+id/main_fragment"
             android:layout_width="match_parent"
-            android:layout_height="480dp"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 </ScrollView>
