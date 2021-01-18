@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,12 +26,9 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView recyclerView;
     File pdfFolder;
-
+    String sharedFolder= "default";
     final int REQUEST_CODE = 1;
-
-    boolean haveData = false;
-    Runnable dataThread;
-    Uri data;
+    String data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,21 +36,16 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         setTitle(R.string.std_example);
         setContentView(R.layout.activity_main);
         context = this;
+        data = getIntent().getStringExtra("path");
+        Toast.makeText(getApplicationContext(), data,Toast.LENGTH_LONG).show();
 
-        dataThread = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Intent intent = getIntent();
-                    data = intent.getData();
-                    if(data != null){
-                        haveData = true;
-                    }
-                }catch (Exception e){
-                    System.err.println(e.getMessage());
-                }
-            }
-        };
+        if (data!=null){
+            pdfFolder= new File(Environment.getExternalStorageDirectory(),sharedFolder);
+        }else{
+            pdfFolder= new File(Environment.getExternalStorageDirectory(),"teste");
+        }
+
+
         if (recyclerViewAdapter == null) {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
             recyclerView = (RecyclerView) currentFragment.getView();
@@ -67,7 +60,6 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         adapter.close();
     }
 
@@ -80,7 +72,7 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
     @Override
     protected void onResume() {
         super.onResume();
-        pdfFolder = new File(Environment.getExternalStorageDirectory(),"teste");
+        pdfFolder = new File(Environment.getExternalStorageDirectory(),sharedFolder);
 
         runOnUiThread(new Runnable() {
             @Override

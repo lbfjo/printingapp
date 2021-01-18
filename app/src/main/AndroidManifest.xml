@@ -13,16 +13,60 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar">
+            android:theme="">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+                <category android:name="android.intent.category.BROWSABLE" >
+                </category>
+
+                <data
+                    android:mimeType="application/pdf"
+                    android:scheme="file" >
+                </data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+                <category android:name="android.intent.category.BROWSABLE" >
+                </category>
+
+                <data
+                    android:mimeType="application/pdf"
+                    android:scheme="content" >
+                </data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+                <category android:name="android.intent.category.BROWSABLE" >
+                </category>
+
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\.[pP][dD][fF]"
+                    android:scheme="file" />
             </intent-filter>
             <intent-filter android:label="filter_view_http_ca">
                 <action  android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="app" android:host="printingapp.mobile"/>
+                <data android:scheme="app" android:host="com.example.printingapp"/>
+
             </intent-filter>
         </activity>
 

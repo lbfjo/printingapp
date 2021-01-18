@@ -21,7 +21,6 @@ public class FileContent {
         ITEMS.clear();
         if (dir.exists()) {
             File[] files = dir.listFiles();
-            Log.i("teste","inside saved Files" + files );
             for (File file : files) {
                 String absolutePath = file.getAbsolutePath();
                 String extension = absolutePath.substring(absolutePath.lastIndexOf("."));
