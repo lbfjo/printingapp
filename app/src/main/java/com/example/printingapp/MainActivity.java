@@ -2,6 +2,7 @@ package com.example.printingapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -27,12 +28,31 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
 
     final int REQUEST_CODE = 1;
 
+    boolean haveData = false;
+    Runnable dataThread;
+    Uri data;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.std_example);
         setContentView(R.layout.activity_main);
         context = this;
+
+        dataThread = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Intent intent = getIntent();
+                    data = intent.getData();
+                    if(data != null){
+                        haveData = true;
+                    }
+                }catch (Exception e){
+                    System.err.println(e.getMessage());
+                }
+            }
+        };
         if (recyclerViewAdapter == null) {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
             recyclerView = (RecyclerView) currentFragment.getView();
@@ -56,6 +76,7 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
