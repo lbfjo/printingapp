@@ -14,6 +14,7 @@ import es.voghdev.pdfviewpager.library.asset.CopyAssetThreadImpl;
 public class AssetOnSDActivity extends BaseSampleActivity {
     final String[] sampleAssets = {"adobe.pdf", "sample.pdf"};
     String fileName ;
+    String sharedFolder="default";
     PDFViewPager pdfViewPager;
     File pdfFolder;
 
@@ -25,7 +26,7 @@ public class AssetOnSDActivity extends BaseSampleActivity {
         setContentView(R.layout.activity_asset_on_sd);
 
 
-        pdfFolder = new File(Environment.getExternalStorageDirectory(),"teste");
+        pdfFolder = new File(Environment.getExternalStorageDirectory(),sharedFolder);
         copyAssetsOnSDCard();
     }
 

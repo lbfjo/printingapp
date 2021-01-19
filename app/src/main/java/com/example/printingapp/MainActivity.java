@@ -36,12 +36,9 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         context = this;
         data = getIntent().getStringExtra("path");
         requestExternalStoragePermissions();
+        if(hasExternalStoragePermissions()){
+            pdfFolder= new File(data);
 
-        if (data!=null){
-            pdfFolder= new File(Environment.getExternalStorageDirectory(),sharedFolder);
-        }else{
-            pdfFolder= new File(Environment.getExternalStorageDirectory(),Environment.DIRECTORY_DOWNLOADS);
-        }
 
 
         if (recyclerViewAdapter == null) {
@@ -51,6 +48,7 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
+        }
         }
 
     }
