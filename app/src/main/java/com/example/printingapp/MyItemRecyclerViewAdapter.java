@@ -1,15 +1,12 @@
 package com.example.printingapp;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.LauncherActivity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -21,6 +18,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public static final String NAME = "name";
     private final List<FileItem> mValues;
     private final ItemFragment.OnListFragmentInteractionListener mListener;
+    final int REQUEST_CODE = 1;
     public MyItemRecyclerViewAdapter(List<FileItem> items, ItemFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -72,4 +70,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         }
     }
+
+
 }

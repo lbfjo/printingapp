@@ -2,10 +2,8 @@ package com.example.printingapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -38,7 +36,7 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         context = this;
         data = getIntent().getStringExtra("path");
         requestExternalStoragePermissions();
-        
+
         if (data!=null){
             pdfFolder= new File(Environment.getExternalStorageDirectory(),sharedFolder);
         }else{
