@@ -37,12 +37,12 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         setContentView(R.layout.activity_main);
         context = this;
         data = getIntent().getStringExtra("path");
-        Toast.makeText(getApplicationContext(), data,Toast.LENGTH_LONG).show();
-
+        requestExternalStoragePermissions();
+        
         if (data!=null){
             pdfFolder= new File(Environment.getExternalStorageDirectory(),sharedFolder);
         }else{
-            pdfFolder= new File(Environment.getExternalStorageDirectory(),"teste");
+            pdfFolder= new File(Environment.getExternalStorageDirectory(),Environment.DIRECTORY_DOWNLOADS);
         }
 
 
