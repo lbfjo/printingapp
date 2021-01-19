@@ -36,21 +36,23 @@ public class MainActivity extends BaseSampleActivity implements ItemFragment.OnL
         context = this;
         data = getIntent().getStringExtra("path");
         requestExternalStoragePermissions();
-        if(hasExternalStoragePermissions()){
-            pdfFolder= new File(data);
 
+        if(hasExternalStoragePermissions()) {
+            if (data != null) {
+                pdfFolder = new File(data);
+            } else {
+                pdfFolder = new File(Environment.getExternalStorageDirectory(), sharedFolder);
+            }
 
-
-        if (recyclerViewAdapter == null) {
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-            recyclerView = (RecyclerView) currentFragment.getView();
-            recyclerViewAdapter = ((RecyclerView) currentFragment.getView()).getAdapter();
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                    DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(dividerItemDecoration);
+            if (recyclerViewAdapter == null) {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                recyclerView = (RecyclerView) currentFragment.getView();
+                recyclerViewAdapter = ((RecyclerView) currentFragment.getView()).getAdapter();
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                        DividerItemDecoration.VERTICAL);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+            }
         }
-        }
-
     }
 
     @Override

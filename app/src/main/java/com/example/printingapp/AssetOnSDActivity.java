@@ -12,7 +12,6 @@ import es.voghdev.pdfviewpager.library.asset.CopyAsset;
 import es.voghdev.pdfviewpager.library.asset.CopyAssetThreadImpl;
 
 public class AssetOnSDActivity extends BaseSampleActivity {
-    final String[] sampleAssets = {"adobe.pdf", "sample.pdf"};
     String fileName ;
     String sharedFolder="default";
     PDFViewPager pdfViewPager;
@@ -47,12 +46,10 @@ public class AssetOnSDActivity extends BaseSampleActivity {
             }
         });
 
-        for (String asset : sampleAssets) {
-            copyAsset.copy(asset, new File(pdfFolder, asset).getAbsolutePath());
-        }
     }
 
     protected String getPdfPathOnSDCard() {
+
         File f = new File(pdfFolder, fileName);
         return f.getAbsolutePath();
     }
